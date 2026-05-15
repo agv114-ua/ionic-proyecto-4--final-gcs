@@ -1,0 +1,16 @@
+services:
+  taller_ionic:
+    container_name: taller_ionic
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    ports:
+      - "8100:8100"
+    environment:
+      - TZ=Europe/Madrid
+    volumes:
+      - ./appIonic:/app
+    command:
+      - ionic serve --external --no-open -- --watch --poll 500
