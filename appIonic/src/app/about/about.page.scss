@@ -1,0 +1,20 @@
+// About page styles
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  padding: 16px 16px 0;
+}
+
+.sw-logo {
+  width: 60%;
+  max-width: 240px;
+  height: auto;
+}
+
+.copyright {
+  font-size: 0.75rem;
+  text-align: right;
+  color: var(--ion-color-medium);
+  margin-top: 12px;
+}

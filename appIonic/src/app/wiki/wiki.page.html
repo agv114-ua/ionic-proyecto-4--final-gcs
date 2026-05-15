@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Wiki Star Wars</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-list-header>
+    <ion-label size="large">Categories</ion-label>
+  </ion-list-header>
+
+  <ion-list>
+    <!-- *ngFor para recorrer el array de categorías del controlador -->
+    <ion-item *ngFor="let cat of categories">
+      <ion-avatar slot="start">
+        <!-- Interpolación para construir la ruta de cada imagen -->
+        <img [src]="'../../assets/images/categories/' + cat + '.jpg'" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ cat }}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

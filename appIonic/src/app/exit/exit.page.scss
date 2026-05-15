@@ -1,0 +1,13 @@
+// Exit page styles
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+
+  ion-button {
+    min-width: 100px;
+  }
+}
