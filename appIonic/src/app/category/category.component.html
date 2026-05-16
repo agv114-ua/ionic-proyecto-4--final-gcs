@@ -1,0 +1,28 @@
+<!--
+  Plantilla del CategoryComponent (Taller 2, Parte 1 p.12 y Parte 2 p.24 del PDF).
+  Nota técnica: el PDF usa <ion-button float-right>, sintaxis válida en Ionic 1/2
+  pero NO en Ionic 7. En Ionic 7 se usa slot="end" para alinear a la derecha
+  dentro del <ion-item>.
+-->
+<ion-item>
+  <ion-avatar slot="start">
+    <img [src]="'../../assets/images/categories/' + theCategory.image" />
+  </ion-avatar>
+  <ion-label>
+    <h2>{{ theCategory.name }}</h2>
+  </ion-label>
+  <ion-button slot="end" (click)="click()">
+    <ion-icon slot="icon-only" name="eye"></ion-icon>
+  </ion-button>
+</ion-item>
+
+<!--
+  Lista de artículos: se muestra sólo si la categoría está seleccionada (*ngIf="selected").
+  Taller 2, Parte 2, p.24 del PDF: ya no son artículos estáticos, sino los recuperados
+  del servicio WikiService (this.articles).
+-->
+<ion-item *ngIf="selected">
+  <ion-list>
+    <ion-item *ngFor="let article of articles">{{ article.name }}</ion-item>
+  </ion-list>
+</ion-item>

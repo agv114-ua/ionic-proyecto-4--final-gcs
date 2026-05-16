@@ -11,16 +11,19 @@
   </ion-list-header>
 
   <ion-list>
-    <!-- *ngFor para recorrer el array de categorías del controlador -->
-    <ion-item *ngFor="let cat of categories">
-      <ion-avatar slot="start">
-        <!-- Interpolación para construir la ruta de cada imagen -->
-        <img [src]="'../../assets/images/categories/' + cat + '.jpg'" />
-      </ion-avatar>
-      <ion-label>
-        <h2>{{ cat }}</h2>
-      </ion-label>
-    </ion-item>
+    <!--
+      Taller 2, Parte 1, p.14 del PDF:
+      Sustituimos el <ion-item> que contenia el *ngFor por <app-category>.
+      - [theCategory]="cat"                  => Input binding (p.11)
+      - [selected]="selectedCategory==cat.name" => Input binding (p.14)
+      - (clicked)="selectCategory($event)"   => captura del @Output emitido por el hijo (p.14)
+    -->
+    <app-category
+      *ngFor="let cat of categories"
+      [theCategory]="cat"
+      [selected]="selectedCategory == cat.name"
+      (clicked)="selectCategory($event)">
+    </app-category>
   </ion-list>
 
 </ion-content>

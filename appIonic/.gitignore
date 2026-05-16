@@ -1,0 +1,30 @@
+# Dependencies
+/node_modules
+
+# Angular build/cache
+/.angular/cache
+/dist
+/www
+/tmp
+/out-tsc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Misc
+/coverage
+/.sass-cache
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings

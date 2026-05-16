@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
+import { Category } from '../models/category';
 
 @Component({
   selector: 'app-wiki',
@@ -8,14 +9,36 @@ import { ToastController } from '@ionic/angular';
 })
 export class WikiPage implements OnInit {
 
-  // Array de categorías definido según el taller (taller 1, paso 5)
-  readonly categories: string[] = ['People', 'Planets', 'Species', 'Starships'];
+  // Ruta al mockup JSON (Taller 2, Parte 1, p.8 del PDF)
+  readonly categoriesMockup: string = './assets/data/categories.json';
+
+  // Vector de categorías tipado como Category[] (p.8 del PDF)
+  categories: Category[] = [];
+
+  // Categoría seleccionada en la lista (Taller 2, Parte 1, p.15 del PDF)
+  selectedCategory: string = '';
 
   constructor(private toastController: ToastController) {}
 
   async ngOnInit() {
-    // Tarea extra: toast de bienvenida al cargar la App
+    // Carga del mockup JSON al iniciar la página (p.8 del PDF)
+    this.getData();
+    // Tarea extra del Taller 1: toast de bienvenida
     await this.presentWelcomeToast();
+  }
+
+  // Cargamos los datos del fichero JSON usando fetch (p.8 del PDF)
+  getData() {
+    fetch(this.categoriesMockup)
+      .then((res) => res.json())
+      .then((json) => {
+        this.categories = json;
+      });
+  }
+
+  // Manejador del evento (clicked) emitido por <app-category> (p.15 del PDF)
+  selectCategory(name: string) {
+    this.selectedCategory = name;
   }
 
   async presentWelcomeToast() {

@@ -11,6 +11,6 @@ services:
     environment:
       - TZ=Europe/Madrid
     volumes:
-      - ./appIonic:/app
+      - .:/app
     command:
       - ionic serve --external --no-open -- --watch --poll 500
