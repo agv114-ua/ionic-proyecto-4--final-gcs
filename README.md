@@ -1,8 +1,8 @@
 # Wiki Star Wars — Ionic Talleres 1-4 (GCS)
 
-Aplicación móvil (Ionic 7 + Angular 17) desarrollada para la asignatura **Gestión de la Calidad del Software (34041)** del Grado en Ingeniería Informática de la Universidad de Alicante. Cubre los talleres 1, 2, 3 y 4 de Ionic.
+Aplicacion movil (Ionic 7 + Angular 17) desarrollada para la asignatura **Gestion de la Calidad del Software (34041)** del Grado en Ingenieria Informatica de la Universidad de Alicante. Cubre los talleres 1, 2, 3 y 4 de Ionic, mas un conjunto de mejoras de calidad documentadas al final.
 
-**Autores:** Ángel Gonjar Verdejo · Erardo Aldana Pessoa
+**Autores:** Angel Gonjar Verdejo - Erardo Aldana Pessoa
 
 ---
 
@@ -10,21 +10,19 @@ Aplicación móvil (Ionic 7 + Angular 17) desarrollada para la asignatura **Gest
 
 ```
 ionic-proyecto-4--final-gcs/
-├── appIonic/                <- proyecto Ionic (aquí está docker-compose.yml)
-│   ├── Dockerfile
-│   ├── docker-compose.yml
-│   ├── package.json
-│   └── src/
-└── autores.txt
+|-- appIonic/                <- proyecto Ionic (aqui esta docker-compose.yml)
+|   |-- Dockerfile
+|   |-- docker-compose.yml
+|   |-- package.json
+|   `-- src/
+`-- autores.txt
 ```
 
-> **Importante:** todos los comandos `docker compose ...` se ejecutan dentro de `appIonic/`, **NO** en la raíz del repo.
+> **Importante:** todos los comandos `docker compose ...` se ejecutan dentro de `appIonic/`, **NO** en la raiz del repo.
 
 ---
 
-## Arranque rápido con Docker
-
-Desde PowerShell (o cualquier terminal):
+## Arranque rapido con Docker
 
 ```powershell
 cd appIonic
@@ -32,82 +30,94 @@ docker compose run --rm taller_ionic "npm install"   # solo la primera vez o tra
 docker compose up -d
 ```
 
-La app queda disponible en:
+App disponible en: http://localhost:8100
 
-- http://localhost:8100
-
-Para parar el contenedor:
-
+Comandos utiles:
 ```powershell
-docker compose down
-```
-
-Para ver logs:
-
-```powershell
-docker compose logs -f taller_ionic
+docker compose down                       # parar el contenedor
+docker compose logs -f taller_ionic       # ver logs
+docker compose restart taller_ionic       # reiniciar tras cambios manuales
 ```
 
 ---
 
 ## Usuarios de prueba (login)
 
-Mockup en `appIonic/src/assets/data/users.json`. Sirve cualquiera de estos:
+Mockup en `appIonic/src/assets/data/users.json`:
 
-| Email             | Contraseña |
+| Email             | Contrasena |
 |-------------------|------------|
 | joan@server.cat   | 123456     |
 | john@server.com   | 123456     |
 | pepe@server.es    | 123456     |
 
-Reglas de validación del formulario: email con formato correcto y contraseña de mínimo 6 caracteres. Credenciales incorrectas → `ion-alert` de error.
+Reglas: email con formato correcto y contrasena de minimo 6 caracteres. Credenciales incorrectas -> ion-alert de error.
 
 ---
 
 ## Funcionalidades por taller
 
-### Taller 1 — Primera App con Ionic
-- Plantilla `tabs` con 4 pestañas: **Wiki**, **Favorites**, **About**, **Exit**.
-- Iconos personalizados en cada pestaña.
-- Toast de bienvenida (`Welcome to the Star Wars Wiki App!`) al cargar Wiki.
-- Página `Exit` con `ion-card` y botones YES/NO (YES muestra alert, NO vuelve a Wiki).
-- Página `About` con logo de Star Wars, descripción y copyright.
+### Taller 1 - Primera App con Ionic
+- Plantilla `tabs` con 4 pestanas: Wiki, Favorites, About, Exit.
+- Iconos personalizados, toast de bienvenida en Wiki.
+- Exit con ion-card y botones YES/NO; About con logo, descripcion y copyright.
 
-### Taller 2 — Componentes y Servicios
+### Taller 2 - Componentes y Servicios
 - Modelo `Category` y mockup `categories.json`.
 - Componente `CategoryComponent` con `@Input` (`theCategory`, `selected`) y `@Output` (`clicked`).
-- Servicio `WikiService` con `getAllArticles(category)` consumiendo la SWAPI (https://swapi.tech/api/).
-- Al pulsar el ojo en una categoría se carga la lista de artículos de esa categoría.
+- `WikiService.getAllArticles(category)` consumiendo SWAPI (https://swapi.tech/api/).
 
-### Taller 3 — Enrutado y Formularios
-- **Routing parametrizado**: ruta `article/:cat/:id` dentro del módulo wiki → `/tabs/wiki/article/:cat/:id`.
-- Modelos para detalle: `People`, `Planet`, `Species`, `Starship`.
-- `WikiService.getArticle(category, id)` para detalle individual.
-- Página `Article` con `ngSwitch` por categoría y `ion-badge` para los valores.
-- Botón de volver atrás (`ion-back-button`).
-- **Formulario login** con `FormBuilder`:
-  - email (`required` + `email`)
-  - password (`required` + `minLength 6`)
-  - botón Entrar deshabilitado si el formulario es inválido
-  - `ion-alert` con `[isOpen]="error!=''"` si las credenciales fallan
-- Servicio `UserService` con `users.json` mockup.
-- `app-routing` redirige a `/login` al arrancar; tras autenticarse navega a `/tabs`.
+### Taller 3 - Enrutado y Formularios
+- Ruta dinamica `/tabs/wiki/article/:cat/:id`.
+- Modelos `People`, `Planet`, `Species`, `Starship`.
+- `WikiService.getArticle(category, id)`.
+- Pagina `Article` con ngSwitch + ion-badge y boton de volver.
+- Formulario login (FormBuilder) con validaciones (email + minLength 6), ion-alert si falla.
+- `UserService` + `users.json`.
 
-### Taller 4 — Storage y Menús
-- **Menú lateral** (`ion-menu` con `menuId="principal"`, `contentId="main"`) cargado desde `assets/data/menu.json`.
-- Botón hamburguesa (`ion-menu-button`) en las cabeceras de wiki, favorites, about, exit y article.
-- Menú deshabilitado en login y habilitado al entrar en tabs (`MenuController` + `ionViewWillEnter`).
-- **Servicio Storage** (`@ionic/storage-angular`) con `init/get/set`.
-- En la página Article: icono estrella (`star`/`star-outline`) que alterna favorito + toast informativo.
-- Página `Favorites` que lista los favoritos persistidos en LocalStorage; cada item navega de vuelta al detalle mediante `[href]="generateURL(cat, id)"`.
+### Taller 4 - Storage y Menus
+- Menu lateral cargado desde `assets/data/menu.json` con MenuController.
+- `<ion-menu-button>` en cabeceras de wiki, favorites, about, exit, article.
+- `@ionic/storage-angular` + `StorageService` (`init/get/set`).
+- Toggle favorito en Article con icono star/star-outline + toast.
+- Pagina Favorites lista los favoritos y navega al detalle.
 
 ---
 
-## Stack técnico
+## Mejoras de calidad anadidas (sobre lo pedido en los PDFs)
 
-| Tecnología | Versión |
+Todas alineadas con los criterios de evaluacion de GCS (usabilidad, accesibilidad, robustez, calidad de codigo):
+
+1. **Autenticacion completa**
+   - `AuthService` con sesion persistente en Storage (auto-login al reabrir la app).
+   - `authGuard` funcional protegiendo `/tabs` (si no hay sesion redirige a `/login`).
+   - Opcion **Logout** en el menu lateral que limpia el storage y vuelve a login.
+
+2. **UX y robustez ante errores de red**
+   - `ion-loading` mientras se consulta SWAPI (lista y detalle).
+   - Toast con color `danger` si la API falla.
+
+3. **Buscador en la lista de articulos**
+   - `ion-searchbar` con debounce que filtra por nombre.
+   - Mensaje "No results." cuando no hay coincidencias.
+
+4. **Swipe-to-delete + pull-to-refresh en Favorites**
+   - `ion-item-sliding` con boton rojo y icono trash para eliminar un favorito deslizando.
+   - `ion-refresher` que recarga la lista del Storage.
+   - Toast informativo al borrar un favorito.
+
+5. **Accesibilidad**
+   - `aria-label` en botones de iconos.
+   - `aria-hidden="true"` en iconos decorativos.
+   - `alt` descriptivo en las imagenes de categoria.
+
+---
+
+## Stack tecnico
+
+| Tecnologia | Version |
 |------------|---------|
-| Node       | 21.x (en la imagen Docker) |
+| Node       | 21.x (imagen Docker) |
 | Angular    | 17.0.2 |
 | Ionic      | 7.5.0 |
 | Ionic CLI  | 7 |
@@ -117,8 +127,6 @@ Reglas de validación del formulario: email con formato correcto y contraseña d
 ---
 
 ## Ejecutar comandos del CLI dentro del contenedor
-
-Cualquier `ionic g ...` o `npm install ...` se lanza así:
 
 ```powershell
 cd appIonic
@@ -130,12 +138,12 @@ docker compose run --rm taller_ionic "npm install paquete-nuevo --save"
 
 ## Entrega Moodle
 
-Subir el repo **excepto** las carpetas `.angular` y `node_modules` (ya excluidas por `.gitignore`).
-El fichero `autores.txt` está en la raíz del repo.
+Subir el repo **excepto** las carpetas `.angular` y `node_modules` (excluidas por `.gitignore`). El fichero `autores.txt` esta en la raiz.
 
 ---
 
-## Notas
+## Notas de implementacion
 
-- Para volver a la pantalla de login después de iniciar sesión, abre el menú lateral o navega manualmente a `/login`. La sesión es del lado del cliente (no hay backend de auth).
-- Los nombres de categoría en la URL llegan capitalizados (`People`, `Planets`...) porque así están en `categories.json`. Internamente se convierten a minúscula para llamar al endpoint de SWAPI (que sirve `/people`, `/planets`, etc.). El `switch` de `article.page.ts` compara contra la versión capitalizada.
+- Los nombres de categoria viajan capitalizados (`People`, `Planets`...) por ser asi en `categories.json`. Internamente se pasan a minuscula para llamar a SWAPI (`/people/`, `/planets/`...). El `switch` de `article.page.ts` compara la version capitalizada.
+- El `tabs-routing.module.ts` declara `path: ''` porque `app-routing` ya monta el modulo bajo `/tabs`. Repetir `path: 'tabs'` dentro provocaria rutas tipo `/tabs/tabs/wiki` y fallo NG04002.
+- El `StorageService` envuelve la promesa de `storage.create()` y todas las llamadas a `get/set` esperan a esa promesa antes de operar.

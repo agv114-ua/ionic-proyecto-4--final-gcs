@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastController } from '@ionic/angular';
 import { StorageService } from '../services/storage.service';
 
-// Página Favorites (Taller 4, p.17-18 del PDF)
+// Pagina Favorites (Taller 4, p.17-18 del PDF)
+// + Mejoras: swipe-to-delete (ion-item-sliding), pull-to-refresh y toast informativo.
 @Component({
   selector: 'app-favorites',
   templateUrl: './favorites.page.html',
@@ -9,13 +11,13 @@ import { StorageService } from '../services/storage.service';
 })
 export class FavoritesPage implements OnInit {
 
-  // Array de favoritos recuperados del LocalStorage (p.17 del PDF)
   public favorites: any[] = [];
 
-  constructor(private storageSrv: StorageService) {}
+  constructor(
+    private storageSrv: StorageService,
+    private toastCtrl: ToastController
+  ) {}
 
-  // Cargamos los favoritos cada vez que se entra a la pestaña, no solo en ngOnInit,
-  // para que la lista quede sincronizada cuando se vuelve desde 'article'.
   ionViewWillEnter() {
     this.loadFavorites();
   }
@@ -24,15 +26,31 @@ export class FavoritesPage implements OnInit {
     this.loadFavorites();
   }
 
-  private loadFavorites() {
-    this.storageSrv.get('favorites').then((data: any[]) => {
-      this.favorites = data ?? [];
-    });
+  private async loadFavorites() {
+    const data = await this.storageSrv.get('favorites');
+    this.favorites = data ?? [];
   }
 
-  // Genera el enlace al detalle del artículo (p.17 del PDF):
-  //   /tabs/wiki/article/<categoria>/<id>
   generateURL(cat: string, id: string): string {
     return '/tabs/wiki/article/' + cat + '/' + id;
+  }
+
+  // Pull-to-refresh: recarga la lista del Storage.
+  async handleRefresh(event: any) {
+    await this.loadFavorites();
+    event?.target?.complete();
+  }
+
+  // Swipe-to-delete: elimina un favorito por indice y persiste el cambio.
+  async removeFavorite(index: number) {
+    if (index < 0 || index >= this.favorites.length) return;
+    const removed = this.favorites[index];
+    this.favorites.splice(index, 1);
+    await this.storageSrv.set('favorites', this.favorites);
+    const toast = await this.toastCtrl.create({
+      message: removed.name + ' removed from favorites',
+      duration: 1800,
+    });
+    await toast.present();
   }
 }

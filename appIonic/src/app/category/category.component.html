@@ -1,32 +1,44 @@
 <!--
   Plantilla del CategoryComponent (Taller 2, Parte 1 p.12 y Parte 2 p.24 del PDF).
-  Nota técnica: el PDF usa <ion-button float-right>, sintaxis válida en Ionic 1/2
-  pero NO en Ionic 7. En Ionic 7 se usa slot="end" para alinear a la derecha
-  dentro del <ion-item>.
+  Mejoras: buscador (ion-searchbar) + mensaje cuando no hay resultados.
 -->
 <ion-item>
   <ion-avatar slot="start">
-    <img [src]="'../../assets/images/categories/' + theCategory.image" />
+    <img
+      [src]="'../../assets/images/categories/' + theCategory.image"
+      [alt]="'Imagen de la categoria ' + theCategory.name"
+    />
   </ion-avatar>
   <ion-label>
     <h2>{{ theCategory.name }}</h2>
   </ion-label>
-  <ion-button slot="end" (click)="click()">
-    <ion-icon slot="icon-only" name="eye"></ion-icon>
+  <ion-button slot="end" (click)="click()" [attr.aria-label]="'Ver articulos de ' + theCategory.name">
+    <ion-icon slot="icon-only" name="eye" aria-hidden="true"></ion-icon>
   </ion-button>
 </ion-item>
 
 <!--
-  Lista de artículos: se muestra sólo si la categoría está seleccionada (*ngIf="selected").
-  Taller 3, Parte 1, p.5 del PDF: cada artículo es ahora clicable y navega a la página
-  'article' con su categoría y uid en la URL ([href]="generateURL(...)").
+  Lista de articulos: solo si la categoria esta seleccionada (*ngIf="selected").
+  Taller 3, Parte 1, p.5 del PDF: cada articulo es clicable y navega a la pagina
+  'article' con su categoria y uid en la URL ([href]="generateURL(...)").
 -->
-<ion-item *ngIf="selected">
-  <ion-list>
+<div *ngIf="selected">
+  <ion-searchbar
+    placeholder="Search by name"
+    [debounce]="200"
+    (ionInput)="onSearch($event)"
+    aria-label="Buscar articulos por nombre">
+  </ion-searchbar>
+
+  <ion-list *ngIf="filteredArticles.length > 0">
     <ion-item
-      *ngFor="let article of articles"
+      *ngFor="let article of filteredArticles"
       [href]="generateURL(theCategory.name, article.uid)">
       {{ article.name }}
     </ion-item>
   </ion-list>
-</ion-item>
+
+  <ion-item *ngIf="filteredArticles.length === 0" lines="none">
+    <ion-label color="medium">No results.</ion-label>
+  </ion-item>
+</div>

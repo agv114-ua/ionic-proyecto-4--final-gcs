@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { ToastController, MenuController } from '@ionic/angular';
+import { AuthService } from './services/auth.service';
 
-// Taller 4, p.5 del PDF: el AppComponent carga el menú desde un JSON al iniciarse.
+// Taller 4, p.5 del PDF: el AppComponent carga el menu desde un JSON al iniciarse.
+// Mejora: anadimos opcion 'Logout' que limpia la sesion del Storage.
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -12,19 +14,27 @@ export class AppComponent implements OnInit {
   readonly menuFile: string = './assets/data/menu.json';
   menuOptions: any[] = [];
 
-  constructor(public toastController: ToastController) {}
+  constructor(
+    public toastController: ToastController,
+    private menuCtrl: MenuController,
+    private authSrv: AuthService
+  ) {}
 
   ngOnInit() {
     this.getMenu();
   }
 
-  // Carga las opciones de menú desde assets/data/menu.json (p.5 del PDF)
   getMenu() {
     fetch(this.menuFile)
       .then((res) => res.json())
       .then((json) => {
         this.menuOptions = json;
-        console.log(this.menuOptions);
       });
+  }
+
+  // Cierra el menu y limpia la sesion (vuelve a /login).
+  async logout() {
+    await this.menuCtrl.close('principal');
+    await this.authSrv.logout();
   }
 }

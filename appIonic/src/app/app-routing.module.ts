@@ -1,17 +1,21 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-// Taller 3, Parte 2, p.16 del PDF: modificamos el enrutamiento principal
-// para que la App muestre la página de login al arrancar y 'tabs' sólo se cargue
-// tras autenticarse (Login navega con router.navigateByUrl('tabs')).
+import { authGuard } from './guards/auth.guard';
+
+// Taller 3, Parte 2, p.16 del PDF + mejora de calidad:
+// - La App arranca en una ruta intermedia que el AuthGuard usa para decidir
+//   si redirige a /tabs (auto-login) o a /login.
+// - Si entras directamente a /tabs sin estar logueado, el guard te manda a /login.
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'tabs',
     pathMatch: 'full',
   },
   {
     path: 'tabs',
+    canActivate: [authGuard],
     loadChildren: () =>
       import('./tabs/tabs.module').then((m) => m.TabsPageModule),
   },

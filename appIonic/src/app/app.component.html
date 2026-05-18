@@ -1,6 +1,6 @@
 <!--
-  Taller 4, p.6 del PDF: menú lateral con menuId='principal' y contentId='main'.
-  El ion-router-outlet recibe el id='main' para que el menú sepa dónde mostrarse.
+  Taller 4, p.6 del PDF: menu lateral con menuId='principal' y contentId='main'.
+  Mejora de calidad: anadimos opcion 'Logout' al final del menu.
 -->
 <ion-app>
 
@@ -15,10 +15,18 @@
       <ion-list>
         <ion-menu-toggle auto-hide="false" *ngFor="let p of menuOptions">
           <ion-item [routerLink]="[p['url']]">
-            <ion-icon slot="start" [name]="p['icon']"></ion-icon>
+            <ion-icon slot="start" [name]="p['icon']" aria-hidden="true"></ion-icon>
             <ion-label>
               {{ p['title'] }}
             </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <!-- Mejora: opcion de logout (cierra sesion y vuelve a /login) -->
+        <ion-menu-toggle auto-hide="false">
+          <ion-item button (click)="logout()" lines="full" detail="false">
+            <ion-icon slot="start" name="log-out-outline" aria-hidden="true"></ion-icon>
+            <ion-label>Logout</ion-label>
           </ion-item>
         </ion-menu-toggle>
       </ion-list>
