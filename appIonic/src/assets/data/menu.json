@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Wiki",
+    "url": "/tabs/wiki",
+    "icon": "book"
+  },
+  {
+    "title": "Favorites",
+    "url": "/tabs/favorites",
+    "icon": "star"
+  },
+  {
+    "title": "About",
+    "url": "/tabs/about",
+    "icon": "information"
+  }
+]

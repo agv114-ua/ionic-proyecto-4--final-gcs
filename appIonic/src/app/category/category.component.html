@@ -18,11 +18,15 @@
 
 <!--
   Lista de artículos: se muestra sólo si la categoría está seleccionada (*ngIf="selected").
-  Taller 2, Parte 2, p.24 del PDF: ya no son artículos estáticos, sino los recuperados
-  del servicio WikiService (this.articles).
+  Taller 3, Parte 1, p.5 del PDF: cada artículo es ahora clicable y navega a la página
+  'article' con su categoría y uid en la URL ([href]="generateURL(...)").
 -->
 <ion-item *ngIf="selected">
   <ion-list>
-    <ion-item *ngFor="let article of articles">{{ article.name }}</ion-item>
+    <ion-item
+      *ngFor="let article of articles"
+      [href]="generateURL(theCategory.name, article.uid)">
+      {{ article.name }}
+    </ion-item>
   </ion-list>
 </ion-item>

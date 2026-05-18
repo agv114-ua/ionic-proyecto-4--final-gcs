@@ -50,4 +50,14 @@ export class CategoryComponent implements OnInit {
       }
     );
   }
+
+  // Taller 3, Parte 1, p.5 del PDF: genera el enlace dinámico al detalle del artículo.
+  // La ruta debe coincidir con la jerarquía de módulos:
+  //   /(root) -> tabs/ -> wiki/ -> article -> :cat -> :id
+  // Usamos toLowerCase() en la categoría porque la API SWAPI usa rutas en minúscula
+  // (people, planets, species, starships) y luego en article.page.ts comparamos
+  // contra el nombre capitalizado para el switch.
+  generateURL(cat: string, id: string): string {
+    return '/tabs/wiki/article/' + cat + '/' + id;
+  }
 }

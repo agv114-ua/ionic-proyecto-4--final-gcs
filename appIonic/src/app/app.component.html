@@ -1,3 +1,30 @@
+<!--
+  Taller 4, p.6 del PDF: menú lateral con menuId='principal' y contentId='main'.
+  El ion-router-outlet recibe el id='main' para que el menú sepa dónde mostrarse.
+-->
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+
+  <ion-menu side="start" menuId="principal" contentId="main">
+    <ion-header>
+      <ion-toolbar color="dark">
+        <ion-title>Main menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of menuOptions">
+          <ion-item [routerLink]="[p['url']]">
+            <ion-icon slot="start" [name]="p['icon']"></ion-icon>
+            <ion-label>
+              {{ p['title'] }}
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main"></ion-router-outlet>
+
 </ion-app>

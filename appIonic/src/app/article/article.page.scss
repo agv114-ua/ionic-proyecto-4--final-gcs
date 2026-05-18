@@ -1,0 +1,11 @@
+// Estilos de la página article
+// Mantener el espacio del botón de favorito alineado a la derecha (Taller 4, p.14 del PDF)
+ion-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+ion-icon[style*="float"] {
+  cursor: pointer;
+}

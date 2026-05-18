@@ -21,4 +21,12 @@ export class WikiService {
   public getAllArticles(category: string): Observable<any> {
     return this.http.get<any>(this.API_URL + category + '/');
   }
+
+  // Devuelve un Observable<any> con el detalle de un artículo concreto.
+  // (Taller 3, Parte 1, p.8 del PDF)
+  // 'category' debe estar en minúsculas (people, planets, species, starships)
+  // 'id' es el uid del item devuelto por la API.
+  public getArticle(category: string, id: string): Observable<any> {
+    return this.http.get<any>(this.API_URL + category + '/' + id);
+  }
 }

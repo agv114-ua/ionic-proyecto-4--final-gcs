@@ -1,13 +1,28 @@
+<!-- Taller 4, p.18 del PDF: lista de favoritos del LocalStorage.
+     Botón de menú lateral en la cabecera (p.7 del PDF). -->
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Favorites</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Favorites</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- Pestaña Favorites: sin contenido por ahora -->
-  <div class="empty-state">
+
+  <!-- Estado vacío cuando no hay favoritos almacenados -->
+  <div class="empty-state" *ngIf="favorites.length === 0">
     <ion-icon name="star-outline" size="large"></ion-icon>
     <p>No favorites yet.</p>
   </div>
+
+  <ion-list *ngIf="favorites.length > 0">
+    <ion-item
+      *ngFor="let fav of favorites"
+      [href]="generateURL(fav.category, fav.id)">
+      {{ fav.name }} ({{ fav.category }})
+    </ion-item>
+  </ion-list>
+
 </ion-content>
