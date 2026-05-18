@@ -2,9 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
+// Taller 3, Parte 2: el app-routing ya monta TabsPageModule bajo el path 'tabs'
+// con loadChildren. Por eso aqui las rutas del modulo son RELATIVAS a 'tabs/'
+// (path: '' renderiza TabsPage y sus children se acceden como /tabs/wiki, etc.).
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
@@ -35,11 +38,6 @@ const routes: Routes = [
         pathMatch: 'full',
       },
     ],
-  },
-  {
-    path: '',
-    redirectTo: '/tabs/wiki',
-    pathMatch: 'full',
   },
 ];
 
